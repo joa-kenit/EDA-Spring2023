@@ -7,6 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
 ## OVERVIEW
 
 This exercise accompanies the lessons in Environmental Data Analytics on coding basics.
@@ -104,6 +108,8 @@ pass1 <- function(x){
 
 pass_or_not1 <- pass1(tests); pass_or_not1
 pass_or_not1 
+#this works
+
 ```
 
 12. QUESTION: Which option of `if` and `else` vs. `ifelse` worked? Why?
