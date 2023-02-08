@@ -158,7 +158,7 @@ Question: under what circumstances would it be beneficial to use each of these g
 ## Ending discussion
 
 What did you learn about the USGS discharge dataset today? What separate insights did the different graph types offer?
-> Answer: 
+> Answer: discharge increases with gage height, but not linearly and that makes sense
 
 
 How can multiple options for data exploration inform our understanding of our data?

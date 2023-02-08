@@ -103,7 +103,7 @@ pass_or_not
 #trying with 'ifelse'
 pass1 <- function(x){
   ifelse(x >= 50, 'TRUE', 'FALSE') #log_exp, if TRUE, if FALSE
-  
+  # 
 }
 
 pass_or_not1 <- pass1(tests); pass_or_not1

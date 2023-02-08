@@ -96,6 +96,7 @@ median(5, 4, 6, 4, 6)
 4 != 5
 4 == 5
 
+
 ```
 
 ### Objects
@@ -128,7 +129,7 @@ What happens if there is a typo in your code? Type the following in the R window
 
 ```{r}
 long_name_for_illustration <- 11
-
+tab for suggestions
 ```
 
 ### Comments
@@ -261,7 +262,7 @@ For now, here are some ways to access the help tools in R:
 ```
 
 ## Tips and Tricks
-
+- With data frame you can have different type of data, and it is the preferable type
 -   Spaces (generally) don't matter. One notable exception is that spaces within quotation marks *do* matter.
 
 -   Case matters
