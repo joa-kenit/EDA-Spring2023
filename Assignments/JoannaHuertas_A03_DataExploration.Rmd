@@ -84,7 +84,15 @@ sort(summary(Neonics$Effect))
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: The `sort()` command can sort the output of the summary command...]
 
 ```{r}
-sort(summary(Neonics$Species.Common.Name))
+#I found useful to use `summary` and `sort` functions
+sorted_data <- sort(summary(Neonics$Species.Common.Name), decreasing = TRUE)
+
+# Extract the first six values
+top_six <- sorted_data[1:7]
+
+# Print the top six values
+print(top_six)
+
 ```
 
 > Answer:Honey Bee, Parasitic Wasp, Buff Tailed Bumblebee, Carniolan Honey Bee, Bumble Bee,        Italian Honeybee are the six most commonly studied species. They are all insects that belong to the Hymenoptera order, which is a diverse group of insects that includes wasps, bees, and ants. They are also all important pollinators, playing a crucial role in the pollination of crops and wildflowers. These insects are valuable to the ecosystem and their populations have declined in many parts of the world due to factors such as habitat loss, pesticide exposure, and disease. As pollinators, they are important for food security and the maintenance of biodiversity.
@@ -167,14 +175,14 @@ ggplot(Litter) +
 
 #
 ggplot(Litter) +
-  geom_violin(aes(x = functionalGroup, y = dryMass), 
-              draw_quantiles = c(0.25, 0.5, 0.75))
+  geom_violin(aes(x = functionalGroup, y = dryMass))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer:
+> Answer: We have a relatively small number of observations for each functional group in our data set,and the violin plot shows mostly only a vertical line, which is usually indicative that the data being plotted has very limited variance. In some cases it only shows an horizontal line, and this could be due to either a small data set or a data set where all the values are close to a single value. On the other hand, in the box plots we have, it is easier to visualize the median, upper and lower quartile and outliers. In cases of limited range and variance, the boxplot provides a clearer and more straightforward representation of the central tendency and spread of the data.
 
 What type(s) of litter tend to have the highest biomass at these sites?
 
-> Answer:
+> Answer:Needles,looking at the boxplot.
