@@ -27,6 +27,7 @@ library(tidyverse)
 library(lubridate)
 library(here) #The here package allows for better control of relative paths
 
+#%>% means "then"
 #Ensure that "here" points to your project folder
 here()
 
@@ -58,12 +59,12 @@ class(NTL.phys.data$lakeid)
 class(NTL.phys.data$depth)
 
 # dplyr filtering
-NTL.phys.data.surface <- filter(NTL.phys.data, depth == 0)
+NTL.phys.data.surface <- filter(NTL.phys.data, depth == 0) #we don't need quotes because depth is numeric
 
 # Choose multiple conditions to filter
 summary(NTL.phys.data$lakename)
 NTL.phys.data.PeterPaul <- 
-  filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake"))
+  filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake")) #%in% everytime lakename matches one of the elements
 
 # Choose a range of conditions of a numeric or integer variable
 summary(NTL.phys.data$daynum)
@@ -74,16 +75,17 @@ NTL.phys.data.JunethruOctober <- filter(NTL.phys.data, daynum %in% c(152:304))
 # Exercise 1: 
 # filter NTL.phys.data for the year 1999
 # what code do you need to use, based on the class of the variable?
-
+NTL.phys.data.1999<- filter(NTL.phys.data, year4==1999) #class of year4 is numeric
 
 # Exercise 2: 
 # filter NTL.phys.data for Tuesday Lake from 1990 through 1999.
-
+NTL.phys.data.Tuesday1990to1999 <- filter(NTL.phys.data, lakename == "Tuesday Lake", 
+                                            year4 %in% c(1990:1999))
 
 ```
 Question: Why don't we filter using row numbers?
 
-> Answer: 
+> Answer: Because we don't know the positions of the rows we want
 
 ---
 
@@ -99,17 +101,28 @@ NTL.phys.data.processed <-
   NTL.phys.data %>%
   filter(lakename == "Paul Lake" | lakename == "Peter Lake") %>%
   select(lakename, sampledate:temperature_C) %>%
-  mutate(temperature_F = (temperature_C*9/5) + 32)
+  mutate(temperature_F = (temperature_C*9/5) + 32) ##| means or
 
 #Exercise 3: Using a pipe filter NTL.phys.data for Tuesday Lake from 1990 
 # through 1999 only for July.
-
+NTL.phys.data.Tuesday1990to1999.July <- 
+  NTL.phys.data %>%
+  filter(lakename == "Tuesday Lake", year4 %in% c(1990:1999), month(sampledate) == 7) 
+  
+NTL.phys.data.Tuesday1990to1999.month <- 
+  NTL.phys.data %>%
+  mutate(Month = month(sampledate)) %>% 
+  filter(lakename == "Tuesday Lake", year4 %in% c(1990:1999), Month == 7)
 
 #Exercise 4: Using the data from part 3, a pipe, and the summarize() function 
 # find the mean surface temperature (hints: you will need to add another
 # filter for depth==0). Make sure you eliminate NAs before computing the means.
-
-  
+NTL.phys.data.Ex4 <-
+  NTL.phys.data.Tuesday1990to1999.July %>% 
+  filter(depth == 0) %>% 
+  drop_na(temperature_C) %>% 
+  summarize(meantemp = mean(temperature_C))
+#na.omit doesn't drop the n.a observations, na.action=na.omit
 ```
 
 ## Gather and Spread
@@ -122,8 +135,16 @@ For gather we will use `pivot_longer` and for spread we will use `pivot_wider`.
 #  the new column holding the irradiance type as "Irradiance_Type", and name the
 #  new column holding the irradiance values as "Irradiance_Value".
 
+# Gather nutrient data into one column using pivot_longer
+NTL.phys.data.gathered <-NTL.phys.data %>%
+  pivot_longer(irradianceWater:irradianceDeck,
+               names_to = "Irradiance_Type", 
+               values_to = "Irradiance_Value")
 
 #Exercise 6: Spread temperatureC into more than one column based on the depth.
-
+NTL.phys.data.wider <-
+  NTL.phys.data %>%
+  pivot_wider(names_from = depth, 
+              values_from = temperature_C) #NA values
 ```
 
