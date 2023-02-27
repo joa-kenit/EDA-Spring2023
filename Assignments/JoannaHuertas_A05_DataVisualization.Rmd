@@ -131,6 +131,7 @@ total.p.by.po4 <- PeterPaul.nutrients %>%
   geom_point()+
   # Add a line of best fit and color it black
   geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(title="Total phosphorus vs phosphate", x="Total Phosphorus (ug)", y="Phosphate (ug)", color="Lake name")+
   # Adjust the x and y limits to hide extreme values
   xlim(0, 125) +
   ylim(0, 50)+
