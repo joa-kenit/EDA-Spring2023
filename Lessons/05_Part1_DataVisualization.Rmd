@@ -104,7 +104,7 @@ PMplot.faceted <-
   facet_wrap(vars(Site.Name), nrow = 3)
 print(PMplot.faceted)
 
-# Filter dataset within plot building and facet by multiple variables
+Filter dataset within plot building and facet by multiple variables
 PMplot.faceted2 <- 
   ggplot(subset(EPAair, Site.Name == "Clemmons Middle" | Site.Name == "Leggett" |
                   Site.Name == "Bryson City"), 

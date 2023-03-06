@@ -9,6 +9,9 @@ editor_options:
 ---
 
 ## OVERVIEW
+```{r setup, include=FALSE}
+
+```
 
 This exercise accompanies the lessons in Environmental Data Analytics on generalized linear models. 
 
@@ -30,7 +33,7 @@ This exercise accompanies the lessons in Environmental Data Analytics on general
 library(here)
 library(tidyverse)
 library(agricolae)
-
+library(corrplot)
 library(lubridate)
 here()
 
@@ -76,13 +79,15 @@ NTL_LTER.wrangle <-
 
 #5
 scatterplot <- 
-ggplot(NTL_LTER.wrangle, aes(x=depth, y=temperature_C, color = lakename))+
+  ggplot(NTL_LTER.wrangle, aes(x=depth, y=temperature_C, color = lakename))+
   geom_point()+
-geom_smooth(method="lm", color="blue", se=FALSE)+
+  geom_smooth(method="lm", se = FALSE, color = "blue") +
   #xlim(0, 125) +
   ylim(0, 35)+
   labs(title= "Temperature vs Depth", x= "Depth (m)", y= "Temperature (°C)", color="Lakes")+
-   theme(legend.text = element_text(size = 7), legend.position = "top", legend.justification = "right", legend.key.width = unit(10, "pt"), legend.key.height = unit(1, "cm"))
+   theme(legend.text = element_text(size = 7), legend.position = "top", 
+         legend.justification = "right", legend.key.width = unit(10, "pt"),
+         legend.key.height = unit(1, "cm"))
 
 print(scatterplot)
 
@@ -185,7 +190,9 @@ geom_smooth(method="lm", color="blue", se=FALSE)+
   #xlim(0, 125) +
   ylim(0, 35)+
   labs(fill="", title= "Temperature vs Depth", x= "Depth (m)", y= "Temperature (°C)", color="Lakes")+
-   theme(legend.text = element_text(size = 7), legend.position = "top", legend.justification = "right", legend.key.width = unit(10, "pt"), legend.key.height = unit(1, "cm"))
+   theme(legend.text = element_text(size = 7), legend.position = "top", 
+         legend.justification = "right", legend.key.width = unit(10, "pt"),
+         legend.key.height = unit(1, "cm"))
 
 print(scatterplot2)
 
@@ -231,11 +238,13 @@ summary(NTL_LTER.Crampton.Ward.Lakes$lakename)
 #Format as a t-test
 #EPAair$Ozone will be our continuous dependent variable
 #EPAair$Year will be our categorical variable with two levels (2018 and 2019)
-Crampton.Ward.twosample <- t.test(NTL_LTER.Crampton.Ward.Lakes$temperature_C ~ NTL_LTER.Crampton.Ward.Lakes$lakename)
+Crampton.Ward.twosample <- t.test(NTL_LTER.Crampton.Ward.Lakes$temperature_C ~
+                                    NTL_LTER.Crampton.Ward.Lakes$lakename)
 Crampton.Ward.twosample
 
 # Format as a GLM
-Crampton.Ward.twosample2 <- lm(NTL_LTER.Crampton.Ward.Lakes$temperature_C ~ NTL_LTER.Crampton.Ward.Lakes$lakename)
+Crampton.Ward.twosample2 <- lm(NTL_LTER.Crampton.Ward.Lakes$temperature_C ~
+                                 NTL_LTER.Crampton.Ward.Lakes$lakename)
 summary(Crampton.Ward.twosample2)
 ```
 
