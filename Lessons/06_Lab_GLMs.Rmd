@@ -21,6 +21,11 @@ library(agricolae)
 library(here)
 here()
 
+#distance to the line of best fit, anything above the dotted red lines would be considered outlier. regression coefficient not affected means the other elements can't be greatly affected either
+#don't add the same effect (variables) twice
+#means are different overall but we can group the ones that are similar
+#Ttest tells u if means are equal or not
+
 EPAair <- read.csv(here("Data/Processed_KEY/EPAair_O3_PM25_NC1819_Processed.csv"), stringsAsFactors = TRUE)
 # Set date to date format
 EPAair$Date <- as.Date(EPAair$Date, format = "%Y-%m-%d")
@@ -48,6 +53,29 @@ Create three plots, each with appropriately formatted axes and legends. Choose a
 
 ```{r}
 #Exercise 1:
+# geom_density
+
+
+
+geomdensity <- 
+  ggplot(EPAair, aes(x = Ozone, fill= as.factor(Year))) +
+  geom_density(alpha = 0.5)+
+  scale_fill_manual(values=c("darkgreen", "darkblue"))+
+  labs(fill="", x= "Ozone AQI Values", y="Density")
+print(geomdensity)
+
+#geom_boxplot
+O3boxplot <- 
+  ggplot(EPAair, aes(x = as.factor(Year), y= Ozone)) +
+  geom_boxplot()+
+  stat_summary(geom="text",fun=max, vjust=-1, size=4, label=c("a", "b"))
+print(O3boxplot)
+
+O3violin <- 
+  ggplot(EPAair, aes(x = as.factor(Year), y= Ozone)) +
+  geom_violin(0.5)+
+  stat_summary(geom="text",fun=max, vjust=-1, size=4, label=c("a", "b"))
+print(O3violin)
 
 
 ```
@@ -62,10 +90,20 @@ For the NTL-LTER dataset, can we predict PM2.5 from Ozone?
 
 #Exercise 2: Run a linear regression PM2.5 by Ozone. Find the p-value and R-squared value. 
 
+PM2.5byOzone.regression <- lm(data = EPAair, PM2.5 ~ Ozone)
+summary(PM2.5byOzone.regression)
 
 
 #Exercise 3: Build a scatterplot. Add a line and standard error for the linear regression. Add the regression equation to the plot
 
+scatterplot <- 
+ggplot(EPAair, aes(x=Ozone, y=PM2.5))+
+  geom_point()+
+geom_smooth(method="lm", color="blue", se=FALSE)
+
+print(scatterplot)
+
+#geom_smooth line for best fit
 
 
 ```
@@ -78,14 +116,25 @@ What other variables can we add to improve model?
 ```{r}
 
 #Exercise 4: Build correlation plots and identify more possible explanatory variables to add to the regression.
+cor.test(EPAair$Ozone, EPAair$PM2.5)
 
+#install.packages("corrplot")
+OzoneandPM2.5 <- 
+  EPAair %>%
+  select(mean_Lat:Ozone) %>%
+  na.omit() #eliminate columns overall so na.omit and drop would be the same thing here
+EPAairCorr <- cor(OzoneandPM2.5)
+EPAairCorr
+corrplot(EPAairCorr, method = "ellipse")
+corrplot.mixed(EPAairCorr, upper = "ellipse")
 
 
 
 #Exercise 5: Choose a model by AIC in a Stepwise Algorithm. Do the results from AIC match the variables you selected on Exercise 4?
 
 
-
+#Estimate pm2.5 with all the other variables iwth AIC, when you remove year you improve,
+#they are adding more information to the model that the matrix is not showing
 
 #Exercise 6: Run another regression using the variables selected on Exercise 6. Compare r-squared value with the one from Exercise 2. 
 
