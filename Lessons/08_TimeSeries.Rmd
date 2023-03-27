@@ -64,7 +64,7 @@ Analysis of time series presents several opportunities. For environmental data, 
 
 Time series datasets come with several caveats, which need to be addressed in order to effectively model the system. A few common challenges that arise (and can occur together within a single dataset) are: 
 
-* **Autocorrelation**: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s))
+* **Autocorrelation**: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s)). Self correlation, time dependance of our series, my obs in time 1 vs time 2, same dataset and same variable.
 * **Data gaps**: Data are not collected at regular intervals, necessitating *interpolation* between measurements.
 * **Seasonality**: seasonal patterns in variables occur at regular intervals, impeding clear interpretation of a monotonic (unidirectional) trend.
 * **Heteroscedasticity**: The variance of the time series is not constant over time
@@ -115,6 +115,7 @@ We first need to turn the discharge data into a time series object in R. This is
 Note: time series objects must be equispaced. In our case, we have daily data with no NAs in the data frame, so we don't need to worry about this. We will cover how to address data that are not equispaced later in the lesson.
 
 ```{r}
+#365 days, frequency is 12 or 365
 EnoDischarge.late_ts <- ts(EnoDischarge.late$discharge.mean, start = c(1985,1), frequency = 365)
 ```
 
